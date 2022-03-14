@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index1.html">Trang chủ</a><i class="fa fa-angle-right"></i>Chi tiết Đơn hàng</li>
+</ol>
+<!-- grids -->
+<div class="grids">
+    <div class="agile-calendar-grid">
+        <div class="page">
+
+            <div class="w3l-calendar-left">
+                <div class="calendar-heading">
+                     MÃ ĐƠN HÀNG : @ViewBag.ID
+                    <div class="agile-tables">
+                        <div class="w3l-table-info">
+                            <table id="table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Ảnh</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Giá bán</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ var sum = 0;}
+                                    @foreach (var item in ViewBag.List)
+                                    {
+                                    <tr class="info">
+                                        <td>@item.ID_Product</td> 
+                                        @{ var product = new WebShop.Areas.Admin.Controllers.DonHangController().getProduct(item.ID_Product);}
+                                        <td><img src="/Content/images/@product.Avatar" alt="Image placeholder" style="text-align: center;" height="80" width="80" class="img-fluid"></td>
+                                        <td>@product.Name</td>
+                                        <td>@String.Format("{0:0,0 VNĐ}", item.TotalPrice)</td>
+                                        <td>@item.Quantity</td>
+                                        @{ var total = item.TotalPrice * item.Quantity;}
+                                    <td>@String.Format("{0:0,0 VNĐ}", total)</td>
+                                    </tr>
+                                        sum+= total;
+                                     }
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="info">Tổng tiền : </td>
+                                    <td class="info">@String.Format("{0:0,0 VNĐ}", sum)</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Modal -->
+                            <!-- Modal content-->
+                            <!-- end mymodal -->
+                            <!-- sanpham -->
+                            <!-- Modal -->
+
+                        </div>
+                        <!-- end modal sanpham -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+

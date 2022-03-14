@@ -1,0 +1,118 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<WebShop.Models.Product>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+        </div>
+    </div>
+</div>
+<div class="site-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-9 order-2">
+                <div class="row">
+                    <div class="col-md-12 mb-5">
+                        <div class="float-md-left mb-4"><h2 class="text-black h5">Sản Phẩm</h2></div>
+                        <div class="d-flex">
+                            <div class="dropdown mr-1 ml-md-auto">
+                               @* <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+                                    <a class="dropdown-item" href="#">Men</a>
+                                    <a class="dropdown-item" href="#">Women</a>
+                                    <a class="dropdown-item" href="#">Children</a>
+                                </div>*@
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Sắp xếp</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+                                    <a class="dropdown-item" href="/Product/AtoZ?page=1&idt=@ViewBag.idt">Tên từ A - Z</a>
+                                    <a class="dropdown-item" href="/Product/ZtoA?page=1&idt=@ViewBag.idt">Tên từ Z - A</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/Product/SortAsc?page=1&idt=@ViewBag.idt">Giá từ thấp đến cao</a>
+                                    <a class="dropdown-item" href="/Product/SortDes?page=1&idt=@ViewBag.idt">Giá từ cao đến thấp</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    @foreach (WebShop.Models.Product item in Model)
+                    {
+                        <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                            <div class="block-4 text-center border">
+                                <figure class="block-4-image">
+                                    <a href="/Product/Details/@item.ID_Product"><img src="/Content/images/@item.Avatar" alt="Image placeholder" class="img-fluid"></a>
+                                </figure>
+                                <div class="block-4-text p-4">
+                                    <h3><a href="/Product/Details/@item.ID_Product">@item.Name</a></h3>
+                                    <p class="text-primary font-weight-bold">@String.Format("{0:0,0 VNĐ}", @item.Price)</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row" data-aos="fade-up">
+                    <div class="col-md-12">
+                        <div class="site-block-27">
+                            <ul>
+                                @if (ViewBag.sortDes == "sortDes")
+                                {
+                                    <li><span>@Html.PagedListPager(Model, page => Url.Action("SortDes", new { page, idt = ViewBag.idt, s = ViewBag.s }))</span></li>
+                                }
+                                else if (ViewBag.sortDes == "sortAsc")
+                                {
+                                    <li><span>@Html.PagedListPager(Model, page => Url.Action("SortAsc", new { page, idt = ViewBag.idt, s = ViewBag.s }))</span></li>
+                                }
+                                else if (ViewBag.sortDes == "atoz")
+                                {
+                                    <li><span>@Html.PagedListPager(Model, page => Url.Action("AtoZ", new { page, idt = ViewBag.idt, s = ViewBag.s }))</span></li>
+                                }
+                                else if (ViewBag.sortDes == "ztoa")
+                                {
+                                    <li><span>@Html.PagedListPager(Model, page => Url.Action("ZtoA", new { page, idt = ViewBag.idt, s = ViewBag.s }))</span></li>
+                                }
+                                else if (ViewBag.sortDes == "fromTo")
+                                {
+                                    <li><span>@Html.PagedListPager(Model, page => Url.Action("FromBetweenTo", new { page,from = ViewBag.from,to = ViewBag.to,idt = ViewBag.idt, s = ViewBag.s }))</span></li>
+                                }
+                                else
+                                {
+                                    <li><span>@Html.PagedListPager(Model, page => Url.Action("Index", new { page, idt = ViewBag.idt, s = ViewBag.s }))</span></li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 order-1 mb-5 mb-md-0">
+                <div class="border p-4 rounded mb-4">
+                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Danh mục</h3>
+                    <ul class="list-unstyled mb-0">
+                        @Html.Action("TradeMark")
+                    </ul>
+                </div>
+                <div class="border p-4 rounded mb-4">
+                    <div class="mb-4">
+                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Sắp xếp theo giá</h3>
+                        <form action="/Product/FromBetweenTo" method="get">
+                            <input type="text" name="from" class="form-control border-1 bg-black" placeholder="Giá ban đầu" />
+                            <input type="text" name="to" class="form-control border-1 bg-black" placeholder="Giá kết thúc" />
+                            <input type="hidden" name="idt" value="@ViewBag.category"/>
+                            <input type="submit" class="form-control border-1 bg-black" value="Tìm" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

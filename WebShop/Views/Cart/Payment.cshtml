@@ -1,0 +1,98 @@
+﻿@ViewBag.Message
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+@using WebShop.Models
+@model List<CartItem>
+
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Order</strong></div>
+        </div>
+    </div>
+</div>
+<div class="site-section">
+    <div class="container">
+        <form method="post" action="/Cart/Payment">
+        <div class="row mb-5">
+            @*
+            <div class="col-md-12">
+                <div class="border p-4 rounded" role="alert">
+                    Returning customer? <a href="#">Click here</a> to login
+                </div>
+            </div>
+            *@
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-5 mb-md-0">
+                <h2 class="h3 mb-3 text-black">Thông tin khách hàng</h2>
+                <div class="p-3 p-lg-5 border">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label for="c_fname" class="text-black">Họ và tên <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_fname" name="Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label for="c_address" class="text-black">Địa chỉ <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_address" name="Address" placeholder="Home number, Stress, District">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-5">
+                        <div class="col-md-6">
+                            <label for="c_email_address" class="text-black">Email </label>
+                            <input type="text" class="form-control" id="c_email_address" name="Email">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="c_phone" class="text-black">SĐT <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_phone" name="Phone" placeholder="Số điện thoại">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="c_order_notes" class="text-black">Ghi chú</label>
+                        <textarea name="Note" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <h2 class="h3 mb-3 text-black">Thông tin đơn hàng</h2>
+                        <div class="p-3 p-lg-5 border">
+                            <table class="table site-block-order-table mb-5">
+                                <thead>
+                                <th>Sản phẩm</th>
+                                <th>Tổng</th>
+                                </thead>
+                                <tbody>
+                                    @foreach (CartItem item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Product.Name<strong class="mx-2">x</strong>@item.Quantity</td>
+                                            <td>@String.Format("{0:0,0 VNĐ}", item.Product.Price)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tr>
+                                    <td class="text-black font-weight-bold"><strong>Tổng hóa đơn</strong></td>
+                                    <td class="text-black font-weight-bold"><strong>@String.Format("{0:0,0 VNĐ}", Model.Sum(e => e.Quantity*e.Product.Price))</strong></td>
+                                </tr>
+                            </table>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </form>
+    </div>
+</div>
+

@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using WebShop.Models
+@model List<Trademark>
+
+<!--heder end here-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index1.html">Trang chủ</a><i class="fa fa-angle-right"></i>Hãng</li>
+</ol>
+<!-- grids -->
+<div class="grids">
+
+
+
+    <div class="agile-calendar-grid">
+        <div class="page">
+
+            <div class="w3l-calendar-left">
+                <div class="calendar-heading">
+                    @if (ViewBag.mes != null)
+                    {
+                        if (ViewBag.mes == "1")
+                        {
+                            <script>
+                      swal({
+                        title: 'Thành công!',
+                        /* text: 'Redirecting...', */
+                        icon: 'success',
+                        timer: 3000,
+                        buttons: true,
+                        type: 'success'
+                      })
+                            </script>
+                        }
+                        else
+                        {
+                            <script>
+                    swal({
+                        title: 'Hãng sản xuất vẫn còn sản phẩm. Không thể xóa!',
+                        /* text: 'Redirecting...', */
+                        icon: 'error',
+                        timer: 3000,
+                        buttons: true,
+                        type: 'error'
+                    })
+                            </script>
+                        }
+                    }
+
+                    <div class="agile-tables">
+                        <div class="w3l-table-info">
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                    data-target="#exampleModalAdd">
+                                Thêm mới
+                            </button>
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                    data-target="#exampleModalSearch">
+                                Tìm kiếm
+                            </button>
+                            <table id="table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã nhà sản xuất</th>
+                                        <th>Tên nhà sản xuất</th>
+                                        <th>Chỉnh sửa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Trademark item in Model)
+                                    {
+                                        <tr class="info">
+                                            <td>@item.ID_Trademark</td>
+                                            <td>@item.Name</td>
+                                            @{
+                                                var nameModalDelete = "myModal1" + item.ID_Trademark;
+                                                var nameModalEdit = "exampleModalEdit" + item.Name;
+                                            }
+                                            <td style="text-align: center;">
+                                                <span>
+                                                    <a class="agile-icon" href="#" data-toggle="modal" data-target="#@nameModalEdit"><i class="fa fa-pencil-square-o"></i></a>
+                                                </span>
+                                                <span>
+                                                    <a class="agile-icon" href="#" data-toggle="modal" data-target="#@nameModalDelete"><i class="fa fa-times-circle"></i></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <!-- Modal Add-->
+                                                <div class="modal fade" id="@nameModalEdit" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Cập nhập Hãng</h4>
+                                                            </div>
+                                                            <form action="/Admin/HangSX/Update/" enctype="multipart/form-data" method="post">
+                                                                <input type="hidden" class="form-control" name="id" value="@item.ID_Trademark" required>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label for="ma">Tên nhà sản xuất:</label>
+                                                                        <input type="text" class="form-control" name="name" value="@item.Name" required>
+                                                                    </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                            <button type="submit" class="btn btn-default">
+                                                                                Cập nhập
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal fade" id="@nameModalDelete" role="dialog">
+                                                            <div class="modal-dialog">
+
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        <h4 class="modal-title">Bạn có chắc chắn muốn xóa hay không?</h4>
+                                                                    </div>
+                                                                    <form action="/Admin/HangSX/Delete/@item.ID_Trademark">
+                                                                        <div class="modal-body">
+                                                                            Sản phẩm : @item.Name
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                            <button type="submit" class="btn btn-default">
+                                                                                Xóa
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                }
+                                </tbody>
+                            </table>
+                            <!-- Modal Add-->
+                            <div class="modal fade" id="exampleModalAdd" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Thêm mới Hãng</h4>
+                                        </div>
+                                        <form action="/Admin/HangSX/Add/" enctype="multipart/form-data" method="post">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="ma">Tên Hãng:</label>
+                                                    <input type="text" class="form-control" name="name" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-default">
+                                                    Thêm
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal -->
+                            <!-- Modal content-->
+                            <!-- end mymodal -->
+                            <!-- sanpham -->
+                            <!-- Modal -->
+
+                        </div>
+                        <!-- end modal sanpham -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<!-- //grids -->

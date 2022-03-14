@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using WebShop.Models
+@model Product
+
+
+<div class="content">
+
+    <div class="module">
+        <div class="module-head">
+            <h3>Create Category</h3>
+        </div>
+        <div class="module-body">
+            <form class="form-horizontal row-fluid" method="post" action="/Admin/SanPham/Create">
+                <div class="control-group">
+                    <label class="control-label" for="basicinput">Product Name</label>
+                    <div class="controls">
+                        <input type="text" id="Text1" placeholder="Tên danh mục..." class="span8" name="Name">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="basicinput">Price</label>
+                    <div class="controls">
+                        <input type="text" id="Text1" placeholder="Tên danh mục..." class="span8" name="Price">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="basicinput">Quantity</label>
+                    <div class="controls">
+                        <input type="text" id="Text1" placeholder="Tên danh mục..." class="span8" name="Quantity">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="basicinput">Avatar</label>
+                    <div class="controls">
+                        <input type="text" id="Text1" placeholder="Tên danh mục..." class="span8" name="Avatar">
+                    </div>
+                </div>
+                @Html.Action("CategoryID")
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="module-head">
+            <h3></h3>
+        </div>
+    </div>
+
+
+
+</div>
+

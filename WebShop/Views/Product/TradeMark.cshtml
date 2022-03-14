@@ -1,0 +1,10 @@
+﻿@using WebShop.Models
+@model List<Trademark>
+
+@foreach (Trademark item in Model)
+{
+    <label for="s_sm" class="d-flex">
+        <a href="/Product/Index?idt=@item.ID_Trademark" name="idt" class="d-flex"><span>@item.Name</span></a>
+    </label>
+}
+

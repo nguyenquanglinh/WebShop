@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="site-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12 order-2">
+                <div class="row">
+                    <div class="col-md-12 mb-5">
+                        <div class="float-md-left mb-4"><h2 class="text-black h5">Recommend for you</h2></div>
+
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-sm-6 col-lg-3 mb-4" data-aos="fade-up">
+                            <div class="block-4 text-center border">
+                                <figure class="block-4-image">
+                                    <a href="/Product/Details/@item.ID_Product"><img src="/Content/images/@item.Avatar" alt="Image placeholder" class="img-fluid"></a>
+                                </figure>
+                                <div class="block-4-text p-4">
+                                    <h3><a href="/Product/Details/@item.ID_Product">@item.Name</a></h3>
+                                    <p class="text-primary font-weight-bold">@String.Format("{0:0,0 VNĐ}", @item.Price)</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row" data-aos="fade-up">
+                    <div class="col-md-12">
+                        <div class="site-block-27">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-12 order-2">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <div class="float-md-left mb-4"><h2 class="text-black h5">Category</h2></div>
+
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    @foreach (var item1 in ViewBag.listCategory)
+                    {
+                        <div class="col-sm-6 col-lg-3 mb-4" data-aos="fade-up">
+                            <div class="block-4 text-center border">
+
+                                <div class="block-4-text p-4">
+                                    <h3><a href="/Product/Index?idt=@item1.ID_Trademark">@item1.Name</a></h3>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row" data-aos="fade-up">
+                    <div class="col-md-12">
+                        <div class="site-block-27">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

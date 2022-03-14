@@ -1,0 +1,64 @@
+﻿@using WebShop.Models
+@model Product
+
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">@Model.Name</strong></div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.mes != null)
+{
+    <script>
+        swal({
+            title: 'Đã thêm sản phẩm vào giỏ hàng!',
+            /* text: 'Redirecting...', */
+            icon: 'success',
+            timer: 15000,
+            buttons: true,
+            type: 'success'
+        })
+    </script>
+}
+
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="/Content/images/@Model.Avatar" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h2 class="text-black">@Model.Name</h2>
+                <p>@Model.Description</p>
+                <p><strong class="text-primary h4">@String.Format("{0:0,0 VNĐ}", Model.Price)</strong></p>
+                <p>
+                    <a href="/Cart/AddItem/@Model.ID_Product?ReturnURL=@Request.RawUrl" class="buy-now btn btn-sm btn-primary">Add To Cart</a>
+
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="site-section block-3 site-blocks-2 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 site-section-heading text-center pt-4">
+                <h2>Featured Products</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nonloop-block-3 owl-carousel">
+                    @Html.Action("listdetail")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

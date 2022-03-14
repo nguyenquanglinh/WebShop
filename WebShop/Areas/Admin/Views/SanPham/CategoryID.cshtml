@@ -1,0 +1,16 @@
+﻿@using WebShop.Models
+@model List<Trademark>
+
+
+<div class="control-group">
+    <label class="control-label" for="basicinput">Category ID</label>
+        <div class="controls">
+            <select id="c_country" class="form-control" name="ID_Category">
+                <option value="0">TradeMark</option>
+                @foreach (Trademark item in Model)
+                {
+                <option value="@item.ID_Trademark">@item.Name</option>
+                }
+            </select>
+        </div>
+</div>

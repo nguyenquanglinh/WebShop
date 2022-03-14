@@ -1,0 +1,214 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using WebShop.Models
+@model List<Order>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index1.html">Trang chủ</a><i class="fa fa-angle-right"></i>Đơn hàng</li>
+</ol>
+<!-- grids -->
+<div class="grids">
+
+
+
+    <div class="agile-calendar-grid">
+        <div class="page">
+
+            <div class="w3l-calendar-left">
+                <div class="calendar-heading">
+                    @if (ViewBag.mes != null)
+                    {
+                        if (ViewBag.mes == "1")
+                        {
+                            <script>
+                      swal({
+                        title: 'Thành công!',
+                        /* text: 'Redirecting...', */
+                        icon: 'success',
+                        timer: 3000,
+                        buttons: true,
+                        type: 'success'
+                      })
+                            </script>
+                        }
+                        else
+                        {
+                            <script>
+                    swal({
+                        title: 'Thất bại!',
+                        /* text: 'Redirecting...', */
+                        icon: 'error',
+                        timer: 3000,
+                        buttons: true,
+                        type: 'error'
+                    })
+                            </script>
+                        }
+                    }
+
+                    <div class="agile-tables">
+                        <div class="w3l-table-info">
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                    data-target="#exampleModalAdd">
+                                Thống kê theo thời gian
+                            </button>
+                            <button type="button" class="btn btn-info" data-toggle="modal"
+                                    data-target="#exampleModalSearch">
+                                Tìm kiếm
+                            </button>
+                            <table id="table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Khách hàng</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Ngày lập</th>
+                                        <th>Tình trạng</th>
+                                        <th>Chỉnh sửa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Order item in Model)
+                                    {
+                                    <tr class="info">
+                                        <td><a href="/Admin/DonHang/Detail/@item.ID_Order">@item.ID_Order</a></td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Phone</td>
+                                        <td>@item.Address</td>
+                                        <td>@String.Format("{0:dd/MM/yy}", @item.CreateDate)</td>
+                                        <td>@item.Status</td>
+                                        @{
+                                            var nameModalEdit = "exampleModalEdit" + item.ID_Order;
+                                        }
+                                        <td style="text-align: center;">
+                                            @if (item.Status == "Đang xử lý")
+                                            {
+
+                                                <span>
+                                                    <a class="agile-icon" href="#" data-toggle="modal" data-target="#@nameModalEdit"><i class="fa fa-pencil-square-o"></i></a>
+                                                </span>
+
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        </td>
+                                            <!-- Modal Add-->
+                                            <div class="modal fade" id="@nameModalEdit" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Cập nhập tình trạng đơn hàng</h4>
+                                                        </div>
+                                                        <form action="/DonHang/Update/" enctype="multipart/form-data" method="post">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="ma">Mã đơn hàng:</label>
+                                                                    <input type="text" class="form-control" name="id" value="@item.ID_Order" readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="ten">Khách hàng:</label>
+                                                                    <input type="text" class="form-control" name="name" value="@item.Name" readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="ten">Ngày lập:</label>
+                                                                    <input type="text" class="form-control" name="date" value="@String.Format("{0:dd/MM/yy}", @item.CreateDate)" readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="ma">Tình trạng:</label>
+                                                                    <select id="c_country" class="form-control" name="status">
+                                                                        <option value="@item.Status" selected>@item.Status</option>
+                                                                        <option value="Đã giao hàng">Đã giao hàng</option>
+                                                                        <option value="Đã hủy">Đã hủy</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-default">
+                                                                    Cập nhập
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="modal fade" id="exampleModalAdd" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Tìm kiếm đơn hàng theo thời gian</h4>
+                                        </div>
+                                        <form action="/Admin/DonHang/ThongKe" enctype="multipart/form-data" method="post">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="ma">Ngày bắt đầu:</label>
+                                                    <input type="date" class="form-control" name="NgayA" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="ten">Ngày kết thúc:</label>
+                                                    <input type="date" class="form-control" name="NgayB" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-default">
+                                                    Tìm
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="exampleModalSearch" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Tìm Kiếm</h4>
+                                        </div>
+                                        <form action="/Admin/DonHang/Search" enctype="multipart/form-data" method="post">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="ma">Nhập mã đơn hàng cần tìm:</label>
+                                                    <input type="text" class="form-control" name="s" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-default">
+                                                    Tìm
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <!-- Modal content-->
+                            <!-- end mymodal -->
+                            <!-- sanpham -->
+                            <!-- Modal -->
+
+                        </div>
+                        <!-- end modal sanpham -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,17 @@
+﻿@using WebShop.Models
+@model List<Product>
+
+@foreach (Product item in Model)
+{
+    <div class="item">
+        <div class="block-4 text-center">
+            <figure class="block-4-image">
+                <a href="@Url.Action("Details","Product", new { id = item.ID_Product })"><img src="/Content/images/@item.Avatar" alt="Image placeholder" class="img-fluid"></a>
+            </figure>
+            <div class="block-4-text p-4">
+                <h3><a href="@Url.Action("Details","Product", new { id = item.ID_Product })">@item.Name</a></h3>
+                <p class="text-primary font-weight-bold">@String.Format("{0:0,0 VNĐ}",item.Price) VNĐ</p>
+            </div>
+        </div>
+    </div>
+}

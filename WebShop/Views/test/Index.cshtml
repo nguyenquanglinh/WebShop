@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using WebShop.Models
+@model List<Product>
+
+
+@foreach (Product item in Model)
+{
+    <h2>@item.Name</h2>
+}
+
+
